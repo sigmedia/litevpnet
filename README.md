@@ -5,12 +5,21 @@
 Author(s): Vibhoothi Vibhoothi,François Pitié, Anil Kokaram
 Contact:  vibhootv at tcd dot ie
 
-### Table of Contents
+## Table of Contents
+- [PCS 2025 Supplymentary Material](#pcs-2025-supplymentary-material)
+  - [LiteVPNet: A Lightweight Network for Video Encoding Control in Quality-Critical Applications](#litevpnet-a-lightweight-network-for-video-encoding-control-in-quality-critical-applications)
+  - [Table of Contents](#table-of-contents)
+  - [Abstract](#abstract)
+  - [Datasets](#datasets)
+    - [Runtime Complexity Evaluation Dataset](#runtime-complexity-evaluation-dataset)
+  - [Feature Information](#feature-information)
+    - [Feature Vector Composition](#feature-vector-composition)
+    - [AV1 Bitstream Symbol Categories](#av1-bitstream-symbol-categories)
+  - [Conclusion](#conclusion)
 
-[[_TOC_]]
 
 
-### Abstract
+## Abstract
 In the last decade, video workflows in the cinema production ecosystem have presented new use cases for video streaming technology. These new workflows e.g. in On-set Virtual Production, present the challenge of requiring precise quality control and energy efficiency. Existing approaches to transcoding often fall short of these requirements, either due to a lack of quality control or computational overhead. To fill this gap, we present a lightweight neural network (LiteVPNet) for accurately predicting Quantisation Parameters for NVENC AV1 encoders that achieve a specified VMAF score. We use low-complexity features including bitstream characteristics, video complexity measures, and CLIP-based semantic embeddings. Our results demonstrate that LiteVPNet achieves mean VMAF errors below 1.2 points across a wide range of quality targets. Notably, LiteVPNet achieves VMAF errors within 2 points for over 87% of our test corpus, c.f. ≈61% with state-of-the-art methods. LiteVPNet’s performance across various quality regions high- lights its applicability for enhancing high-value content transport and streaming for more energy-efficient, high-quality media experiences.
 
 
@@ -37,9 +46,9 @@ A large and diverse dataset was compiled to train and validate the `LiteVPNet` m
     *   Sony Cine Test Footages
     *   Inter4K dataset
 
-### 3. Runtime Complexity Evaluation Dataset
+### Runtime Complexity Evaluation Dataset
 
-This dataset was used to perform a comparative analysis of the runtime performance of `LiteVPNet` against other state-of-the-art models.
+This dataset used for runtime analysis of `LiteVPNet` against other state-of-the-art models.
 
 *   **Content**: **139 video shots** extracted from two short films from the Netflix Open-Content library:
     1.  *Meridian* (12 minutes)
@@ -48,7 +57,7 @@ This dataset was used to perform a comparative analysis of the runtime performan
 
 ## Feature Information
 
-The `LiteVPNet` model uses a comprehensive feature vector of dimension **754x1** derived from multiple sources: bitstream analysis, Video Complexity Analyzer (VCA) metrics, video metadata, and CLIP embeddings.
+The `LiteVPNet` model uses a comprehensive feature vector of dimension **754x1** derived from multiple sources: bitstream analysis, Video Complexity Analyzer (VCA) metrics, video metadata, and OpenAI CLIP embeddings.
 
 ### Feature Vector Composition
 
@@ -86,7 +95,12 @@ The following table details the components of the feature vector. Features are e
 | 28 | Clippie Embedding                                  | Video             | 16    | 16          |
 |    |                                                    | **Total Length**  |       | **754**     |
 
-## AV1 Bitstream Symbol Categories
+Feature is extracted using `inspect` tool of libaom-av1. 
+
+Sample CLI
+> `inspect $INPUT.ivf  --all -x > $INPUT-stats.json`
+
+### AV1 Bitstream Symbol Categories
 
 For bitstream feature analysis, AV1 symbols are grouped into functional categories to analyze bit allocation and computational complexity. The following table lists these categories and their corresponding symbol names.
 
@@ -102,7 +116,7 @@ For bitstream feature analysis, AV1 symbols are grouped into functional categori
 
 
 
-# Conclusion
+## Conclusion
 
 This work introduced LiteVPNet to predict QP parameters for quality-constrained encoding with AV1 in cinema production.
 The system is an efficient neural network that combines diverse feature sets, including bitstream statistics, VCA, and semantic CLIP embeddings, processed via a self-attention-based model. It achieves state-of-the-art performance, demonstrated by a mean QP MAE of 4.5 and a mean VMAF MAE of 1.0. Furthermore, our results in a sense highlight the non-linearity inherent in R/D optimisation: moderate QP variations (errors of 3.9-5.1) yield considerably smaller VMAF errors (0.8-1.2), indicating precise perceptual control. Future work will include dynamic resolution and support for HDR videos.
