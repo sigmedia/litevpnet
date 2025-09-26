@@ -3,6 +3,7 @@
 ## LiteVPNet: A Lightweight Network for Video Encoding Control in Quality-Critical Applications
 
 Author(s): Vibhoothi Vibhoothi,François Pitié, Anil Kokaram
+
 Contact:  vibhootv at tcd dot ie
 
 ## Table of Contents
@@ -20,7 +21,7 @@ Contact:  vibhootv at tcd dot ie
 
 
 ## Abstract
-In the last decade, video workflows in the cinema production ecosystem have presented new use cases for video streaming technology. These new workflows e.g. in On-set Virtual Production, present the challenge of requiring precise quality control and energy efficiency. Existing approaches to transcoding often fall short of these requirements, either due to a lack of quality control or computational overhead. To fill this gap, we present a lightweight neural network (LiteVPNet) for accurately predicting Quantisation Parameters for NVENC AV1 encoders that achieve a specified VMAF score. We use low-complexity features including bitstream characteristics, video complexity measures, and CLIP-based semantic embeddings. Our results demonstrate that LiteVPNet achieves mean VMAF errors below 1.2 points across a wide range of quality targets. Notably, LiteVPNet achieves VMAF errors within 2 points for over 87% of our test corpus, c.f. ≈61% with state-of-the-art methods. LiteVPNet’s performance across various quality regions high- lights its applicability for enhancing high-value content transport and streaming for more energy-efficient, high-quality media experiences.
+In the last decade, video workflows in the cinema production ecosystem have presented new use cases for video streaming technology. These new workflows e.g. in On-set Virtual Production, present the challenge of requiring precise quality control and energy efficiency. Existing approaches to transcoding often fall short of these requirements, either due to a lack of quality control or computational overhead. To fill this gap, we present a lightweight neural network (LiteVPNet) for accurately predicting Quantisation Parameters for NVENC AV1 encoders that achieve a specified VMAF score. We use low-complexity features including bitstream characteristics, video complexity measures, and CLIP-based semantic embeddings. Our results demonstrate that LiteVPNet achieves mean VMAF errors below 1.2 points across a wide range of quality targets. Notably, LiteVPNet achieves VMAF errors within 2 points for over 87% of our test corpus, c.f. ≈61% with state-of-the-art methods. LiteVPNet’s performance across various quality regions highlights its applicability for enhancing high-value content transport and streaming for more energy-efficient, high-quality media experiences.
 
 
 ## Datasets
@@ -46,6 +47,11 @@ A large and diverse dataset was compiled to train and validate the `LiteVPNet` m
     *   Sony Cine Test Footages
     *   Inter4K dataset
 
+
+|                     Dataset                     |             Spatial and Temporal Complexity              |
+| :---------------------------------------------: | :------------------------------------------------------: |
+| <img src="img/collage_128x128.jpg" width="900"> | <img src="img/siti_scatter_by_category.jpg" width="900"> |
+
 ### Runtime Complexity Evaluation Dataset
 
 This dataset used for runtime analysis of `LiteVPNet` against other state-of-the-art models.
@@ -63,37 +69,37 @@ The `LiteVPNet` model uses a comprehensive feature vector of dimension **754x1**
 
 The following table details the components of the feature vector. Features are extracted at both the frame level (from the first 8 frames) and the overall video level.
 
-| #  | Name                                               | Measurement Level | Count | Total Count |
-|----|----------------------------------------------------|-------------------|-------|-------------|
-| 1  | Total bits (All, MV Blocks, Non-MV Blocks)         | Frames            | 3     | 24          |
-| 2  | TransformType percentage                           | Frames            | 16    | 128         |
-| 3  | Compound mode (Avg, Wedge, Diffwtd)                | Frames            | 3     | 24          |
-| 4  | IntraBC Percentage (1/0)                           | Frames            | 2     | 16          |
-| 5  | Palette modes (8 colours)                          | Frames            | 8     | 64          |
-| 6  | UV Palette modes (8 colours)                       | Frames            | 8     | 64          |
-| 7  | Skip Mode Percentage (1/0)                         | Frames            | 2     | 16          |
-| 8  | Per-Component Distribution (Symbols)               | Frames            | 20    | 160         |
-| 9  | BlockSize distribution                             | Video             | 22    | 22          |
-| 10 | Transform Size                                     | Video             | 19    | 19          |
-| 11 | Transform Type                                     | Video             | 16    | 16          |
-| 12 | UV Inter Prediction Mode                           | Video             | 15    | 15          |
-| 13 | Inter Pred mode Types                              | Video             | 26    | 26          |
-| 14 | Motion Pred Types (Translational, OBMC, Wrapped)   | Video             | 3     | 3           |
-| 15 | Compound mode (Avg, Wedge, Diffwtd)                | Video             | 3     | 3           |
-| 16 | IntraBC Percentage (1/0)                           | Video             | 2     | 2           |
-| 17 | Palette modes (8 colours)                          | Video             | 8     | 8           |
-| 18 | UV Palette modes (8 colours)                       | Video             | 8     | 8           |
-| 19 | Reference Frame Type                               | Video             | 9     | 9           |
-| 20 | Inter-Pred Filter (Dual-Filter)                    | Video             | 9     | 9           |
-| 21 | Skip Mode Percentage (1/0)                         | Video             | 2     | 2           |
-| 22 | Per-Component Distribution (Symbols)               | Video             | 25    | 25          |
-| 23 | MV Stats (mean, min, max, stddev, kurtosis, skew)  | Video             | 6     | 6           |
-| 24 | All-Frames VCA {mean, min, max, stddev, 25%, 50%, 75%} | Video             | 21    | 21          |
-| 25 | I-Frame VCA {mean, min, max, stddev, 25%, 50%, 75%}    | Video             | 21    | 21          |
-| 26 | Non-I Frame VCA {mean, min, max, stddev, 25%, 50%, 75%}| Video             | 21    | 21          |
-| 27 | Video Metadata (bitrate\_kbps, duration, etc.)     | Video             | 6     | 6           |
-| 28 | Clippie Embedding                                  | Video             | 16    | 16          |
-|    |                                                    | **Total Length**  |       | **754**     |
+| #   | Name                                                    | Measurement Level | Count | Total Count |
+| --- | ------------------------------------------------------- | ----------------- | ----- | ----------- |
+| 1   | Total bits (All, MV Blocks, Non-MV Blocks)              | Frames            | 3     | 24          |
+| 2   | TransformType percentage                                | Frames            | 16    | 128         |
+| 3   | Compound mode (Avg, Wedge, Diffwtd)                     | Frames            | 3     | 24          |
+| 4   | IntraBC Percentage (1/0)                                | Frames            | 2     | 16          |
+| 5   | Palette modes (8 colours)                               | Frames            | 8     | 64          |
+| 6   | UV Palette modes (8 colours)                            | Frames            | 8     | 64          |
+| 7   | Skip Mode Percentage (1/0)                              | Frames            | 2     | 16          |
+| 8   | Per-Component Distribution (Symbols)                    | Frames            | 20    | 160         |
+| 9   | BlockSize distribution                                  | Video             | 22    | 22          |
+| 10  | Transform Size                                          | Video             | 19    | 19          |
+| 11  | Transform Type                                          | Video             | 16    | 16          |
+| 12  | UV Inter Prediction Mode                                | Video             | 15    | 15          |
+| 13  | Inter Pred mode Types                                   | Video             | 26    | 26          |
+| 14  | Motion Pred Types (Translational, OBMC, Wrapped)        | Video             | 3     | 3           |
+| 15  | Compound mode (Avg, Wedge, Diffwtd)                     | Video             | 3     | 3           |
+| 16  | IntraBC Percentage (1/0)                                | Video             | 2     | 2           |
+| 17  | Palette modes (8 colours)                               | Video             | 8     | 8           |
+| 18  | UV Palette modes (8 colours)                            | Video             | 8     | 8           |
+| 19  | Reference Frame Type                                    | Video             | 9     | 9           |
+| 20  | Inter-Pred Filter (Dual-Filter)                         | Video             | 9     | 9           |
+| 21  | Skip Mode Percentage (1/0)                              | Video             | 2     | 2           |
+| 22  | Per-Component Distribution (Symbols)                    | Video             | 25    | 25          |
+| 23  | MV Stats (mean, min, max, stddev, kurtosis, skew)       | Video             | 6     | 6           |
+| 24  | All-Frames VCA {mean, min, max, stddev, 25%, 50%, 75%}  | Video             | 21    | 21          |
+| 25  | I-Frame VCA {mean, min, max, stddev, 25%, 50%, 75%}     | Video             | 21    | 21          |
+| 26  | Non-I Frame VCA {mean, min, max, stddev, 25%, 50%, 75%} | Video             | 21    | 21          |
+| 27  | Video Metadata (bitrate\_kbps, duration, etc.)          | Video             | 6     | 6           |
+| 28  | Clippie Embedding                                       | Video             | 16    | 16          |
+|     |                                                         | **Total Length**  |       | **754**     |
 
 Feature is extracted using `inspect` tool of libaom-av1. 
 
@@ -104,15 +110,17 @@ Sample CLI
 
 For bitstream feature analysis, AV1 symbols are grouped into functional categories to analyze bit allocation and computational complexity. The following table lists these categories and their corresponding symbol names.
 
-| Category                           | Symbol Names                                                                                                                                                                                                                                                                            |
-|------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Block Structure and Partitioning** | `read_partition`, `read_delta_qindex`                                                                                                                                                                                                                                                   |
-| **Prediction Mode Symbols**        | `read_intra_mode`, `read_intra_mode_uv`, `read_filter_intra_mode_info`, `read_angle_delta`, `read_skip_txfm`                                                                                                                                                                                |
-| **Transform and Coefficient Processing** | `read_selected_tx_size`, `av1_read_tx_type`, `read_coeffs_txb`, `read_coeffs_reverse_2d`, `read_coeffs_reverse`                                                                                                                                                                        |
-| **Restoration and Filtering**      | `loop_restoration_read_sb_coeffs`, `read_sgrproj_filter`, `read_wiener_filter`, `read_cdef`                                                                                                                                                                                               |
-| **Palette Mode Symbols**           | `read_palette_mode_info`, `read_palette_colors_y`, `read_palette_colors_uv`, `decode_color_map_tokens`                                                                                                                                                                                     |
-| **Chroma from Luma (CfL) Processing** | `cfl:signs`, `cfl:alpha_u`, `cfl:alpha_v`                                                                                                                                                                                                                                               |
-| **Entropy Coding Helpers**         | `av1_read_uniform`, `read_golomb`                                                                                                                                                                                                                                                           |
+| Category                                 | Symbol Names                                                                                                    |
+| ---------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| **Block Structure and Partitioning**     | `read_partition`, `read_delta_qindex`                                                                           |
+| **Prediction Mode Symbols**              | `read_intra_mode`, `read_intra_mode_uv`, `read_filter_intra_mode_info`, `read_angle_delta`, `read_skip_txfm`    |
+| **Transform and Coefficient Processing** | `read_selected_tx_size`, `av1_read_tx_type`, `read_coeffs_txb`, `read_coeffs_reverse_2d`, `read_coeffs_reverse` |
+| **Restoration and Filtering**            | `loop_restoration_read_sb_coeffs`, `read_sgrproj_filter`, `read_wiener_filter`, `read_cdef`                     |
+| **Palette Mode Symbols**                 | `read_palette_mode_info`, `read_palette_colors_y`, `read_palette_colors_uv`, `decode_color_map_tokens`          |
+| **Chroma from Luma (CfL) Processing**    | `cfl:signs`, `cfl:alpha_u`, `cfl:alpha_v`                                                                       |
+| **Entropy Coding Helpers**               | `av1_read_uniform`, `read_golomb`                                                                               |
+
+
 
 
 
